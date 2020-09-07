@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<script type="text/javascript">
+	function checkAll() {
+		if (!checkName(form.name.value)) {
+			return false;
+		} else if (!checkUserId(form.userId.value)) {
+			return false;
+		} else if (!checkPassword(form.userId.value, form.password1.value,
+				form.password2.value)) {
+			return false;
+		} else if (!checkphoncom()) {
+			return false;
+		}
+		return true;
+	}
+	function checkName(name) {
+		if (!checkExistData(name, "이름을"))
+			return false;
+
+		var nameRegExp = /^[가-힣|a-z|A-Z]+$/;
+		if (!nameRegExp.test(name)) {
+			alert("이름은 영문자나 한글로 입력해 주세요");
+			return false;
+		}
+		return true; //확인이 완료되었을 때
+	}
+
+	function checkExistData(value, dataName) {
+		if (value == "") {
+			alert(dataName + " 반드시 입력해주세요!");
+			return false;
+		}
+		return true;
+	}
+
+	function checkUserId(id) {
+		//Id가 입력되었는지 확인하기
+		if (!checkExistData(id, "아이디를"))
+			return false;
+
+		var idRegExp = /^[a-zA-z0-9]{3,8}$/; //아이디 유효성 검사
+		if (!idRegExp.test(id)) {
+			alert("아이디는 3~8글자로 입력해 주세요");
+			form.userId.value = "";
+			form.userId.focus();
+			return false;
+		}
+		return true; //확인이 완료되었을 때
+	}
+	function checkPassword(id, password1, password2) {
+		//비밀번호가 입력되었는지 확인하기
+		if (!checkExistData(password1, "비밀번호를"))
+			return false;
+		//비밀번호 확인이 입력되었는지 확인하기
+		if (!checkExistData(password2, "비밀번호 확인을"))
+			return false;
+
+		var password1RegExp = /^[a-zA-z0-9]{4,12}$/; //비밀번호 유효성 검사
+		if (!password1RegExp.test(password1)) {
+			alert("비밀번호는 영문 대소문자와 숫자 4~12자리로 입력해야합니다!");
+			form.password1.value = "";
+			form.password1.focus();
+			return false;
+		}
+		//비밀번호와 비밀번호 확인이 맞지 않다면..
+		if (password1 != password2) {
+			alert("동일한 비밀번호를 입력해 주세요");
+			form.password1.value = "";
+			form.password2.value = "";
+			form.password2.focus();
+			return false;
+		}
+
+		//아이디와 비밀번호가 같을 때..
+		if (id == password1) {
+			alert("아이디와 비밀번호는 같을 수 없습니다!");
+			form.password1.value = "";
+			form.password2.value = "";
+			form.password2.focus();
+			return false;
+		}
+		return true; //확인이 완료되었을 때
+	}
+	function checkphoncom() {
+		var phoncom = document.getElementsByName("sms");
+
+		//체크된 값이 하나라도 있을경우 true
+		for (var i = 0; i < phoncom.length; i++) {
+			if (phoncom[i].checked == true) {
+				return true;
+			}
+		}
+		alert("통신사를 선택해 주세요");
+		return false;
+	}
+</script>
+<title>html</title>
+<style type="text/css">
+	   table {
+        
+        border: 1px solid #dbd7d7;
+      }
+      td {
+        padding: 10px;
+        border: 1px solid #dbd7d7;
+      }
+
+	.a{
+		border-spacing: 0px;
+	}
+
+
+</style>
+</head>
+<body>
+	<div class="box" >
+		<form  name=form method="post" onsubmit="return checkAll()">
+			<div style="
+    		width: 800px;
+    		margin: 0 auto;">
+							
+			<p align="right">(*)부분은 필수 입력사항입니다</p>
+		<table class="a" width="800px" height="500px" align="center"  >
+			<!-- <th colspan="2" align="right">(*)부분은 필수 입력사항입니다</th> -->
+			
+			<tr border="1">
+				<td bgcolor="#dedede"><label for="sname">고객님의 이름(*) </td>
+				<td><input type="text" name="name" id="name" size="20px">
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#dedede"><label for="id">희망 아이디(ID)(*) </td>
+				<td><input type="text" name="userId"> <input
+					type="button" id="check" value="중복확인"><br> 3~12자리
+					영문,숫자 조합(대소문자 구분 없으며,특수기호 사용은 불가 )</td>
+			</tr>
+			<tr>
+				<td bgcolor="#dedede"><label for="pwd">비밀번호 입력(*) </td>
+				<td><input type="text" name="password1"> 5~8자리 문자와 숫자를
+					이용하여 만드실 수 있습니다.</td>
+			</tr>
+			<tr>
+				<td bgcolor="#dedede"><label for="pwdCheck">비밀번호 다시입력(*) </td>
+				<td><input type="text" name="password2">영문은 대소문자를
+					구분합니다.</td>
+			</tr>
+			<tr>
+				<td bgcolor="#dedede"><label for="email">주로 사용하는 이메일(*) </td>
+				<td><input type="text" name="email">@ <input
+					type="text" name="email"> <select>
+						<option value="0">선택하세요</option>
+						<option value="1">google.com</option>
+						<option value="2">naver.com</option>
+						<option value="3">daum.com</option>
+				</select><br> <input type="checkbox" name="sms">천리안 메일을 주로 사용하는
+					메일로 설정하시겠습니까?</td>
+			</tr>
+			<tr>
+				<td bgcolor="#dedede">주소(*)</td>
+				<td><input type="text" name="dong"size=3>-
+					<input type="text" name="dong"size=3> 
+					<input type="button" id="address" value="우편번호검색">
+					<br> 
+					<input type="text" name="home"size=48> 
+					<br>나머지 주소 
+					<input type="text" name="homeAddress"size=30></td>
+			</tr>
+			<tr>
+
+				<td bgcolor="#dedede">휴대폰번호(*)</td>
+				<td><select id="smartPhone" name="smartPhone">
+						<option value="">선택</option>
+						<option value="010">010</option>
+						<option value="011">011</option>
+						<option value="017">017</option>
+						<option value="019">019</option>
+				</select> 
+				-<input type="text" name="smartPhone1"size=10>-
+				 <input type="text" name="smartPhone2"size=10> 
+				 <input type="radio" name="sms">SKT
+				 <input type="radio" name="sms">KTF 
+				 <input type="radio" name="sms">LGT
+				</td>
+			</tr>
+			<tr>
+
+				<td>일반전화번호</td>
+				<td><input type="text" name="smartPhone1" size=10>-
+					<input type="text" name="smartPhone1" size=10>
+				   -<input type="text" name="smartPhone2" size=10> 
+				    <input type="radio" name="sms">집
+					<input type="radio" name="sms">직장
+				</td>
+			</tr>
+			<tr>
+				<td><label for="sms">천리안소식지 및 휴대폰<br>문자(SMS)수신 </td>
+				<td><input type="checkbox" name="sms">천리안 소식메일을 수신합니다.<br>
+					<input type="checkbox" name="sms">알림 및 소식등 정보 휴대폰 문자 수신</td>
+			</tr>
+		</table>
+		</div>
+		<p align=center>
+			<input type="submit" name="join" value="회원 가입"> <input
+				type="reset" name="reset" value="다시 입력">
+		</p>
+	</form>
+	</div>
+</body>
+</html>
